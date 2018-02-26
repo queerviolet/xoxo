@@ -8,5 +8,10 @@
   },
   "keywords": [],
   "author": "Ashi Krishnan <hi@ashi.io>",
-  "license": "ISC"
+  "license": "ISC",
+  "dependencies": {
+    "babel-core": "^6.26.0",
+    "babel-plugin-transform-es2015-modules-commonjs": "^6.26.0",
+    "babel-register": "^6.26.0"
+  }
 }
