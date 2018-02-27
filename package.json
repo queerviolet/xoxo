@@ -12,6 +12,9 @@
   "dependencies": {
     "babel-core": "^6.26.0",
     "babel-plugin-transform-es2015-modules-commonjs": "^6.26.0",
-    "babel-register": "^6.26.0"
+    "babel-register": "^6.26.0",
+    "immutable": "^3.8.2",
+    "inquirer": "^5.1.0",
+    "redux": "^3.7.2"
   }
 }
