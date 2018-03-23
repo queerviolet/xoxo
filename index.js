@@ -24,11 +24,20 @@ const getInput = player => async () => {
   game.dispatch(move(player, coord))
 }
 
+const exitOnWin = ({winner}) => {
+  if (winner) {
+    console.log(winner, 'wins!')
+    process.exit(0)
+  }
+}
+
 const game = createStore(gameReducer)
 
 // Debug: Print the state
 game.subscribe(() => console.log(game.getState()))
+
 game.subscribe(() => printBoard(game.getState().board))
+game.subscribe(() => exitOnWin(game.getState()))
 game.subscribe(getInput('X'))
 game.subscribe(getInput('O'))
 

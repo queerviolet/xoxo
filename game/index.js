@@ -18,17 +18,17 @@ function turn(current='X', action) {
   return current
 }
 
-function board(board=Map(), action) {
-  if (action.type === MOVE)
-    return board.setIn(action.coord, action.player)
+function board(board=Map(), {type, coord, player}) {
+  if (type === MOVE)
+    return board.setIn(coord, player)
   return board
 }
 
 function streak(board, first, ...rest) {
   const player = board.getIn(first)
-  if (player === undefined) return false
+  if (!player) return false
   for (let c of rest) {
-    if (!board.getIn(c) === player) return false
+    if (board.getIn(c) !== player) return false
   }
   return player
 }
