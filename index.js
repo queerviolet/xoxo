@@ -12,16 +12,15 @@ const printBoard = board => {
   }
 }
 
-const getInput = player => async () => {
-  const state = game.getState()
-  if (state.turn !== player) return
+const getInput = async () => {
+  const {turn} = game.getState()  
   const ans = await inquirer.prompt([{
     type: 'input',
     name: 'coord',
-    message: `${player}'s move (row,col):`
+    message: `${turn}'s move (row,col):`
   }])
   const coord = ans.coord.split(/[,\s+]/).map(x => +x)
-  game.dispatch(move(player, coord))
+  game.dispatch(move(turn, coord))
 }
 
 const exitOnWin = ({winner}) => {
@@ -38,7 +37,6 @@ game.subscribe(() => console.log(game.getState()))
 
 game.subscribe(() => printBoard(game.getState().board))
 game.subscribe(() => exitOnWin(game.getState()))
-game.subscribe(getInput('X'))
-game.subscribe(getInput('O'))
+game.subscribe(getInput)
 
 game.dispatch({ type: 'START' })
