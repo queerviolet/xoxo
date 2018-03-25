@@ -13,6 +13,11 @@ const printBoard = () => {
   }
 }
 
+const printError = () => {
+  const {error} = game.getState()
+  if (error) console.error(error)
+}
+
 const getInput = async () => {
   const {turn} = game.getState()  
   const ans = await inquirer.prompt([{
@@ -24,7 +29,8 @@ const getInput = async () => {
   game.dispatch(move(turn, [row, col]))
 }
 
-const exitOnWin = ({winner}) => {
+const exitOnWin = () => {
+  const {winner} = game.getState()
   if (winner) {
     console.log(winner, 'wins!')
     process.exit(0)
@@ -34,10 +40,11 @@ const exitOnWin = ({winner}) => {
 const game = createStore(gameReducer)
 
 // Debug: Print the state
-game.subscribe(() => console.log(game.getState()))
+// game.subscribe(() => console.log(game.getState()))
 
 game.subscribe(printBoard)
-game.subscribe(() => exitOnWin(game.getState()))
+game.subscribe(printError)
 game.subscribe(getInput)
+game.subscribe(exitOnWin)
 
 game.dispatch({ type: 'START' })

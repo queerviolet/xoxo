@@ -58,7 +58,23 @@ export function winner(board) {
   return 'draw'
 }
 
-export default function reducer(game={}, action) {  
+const bad = ({turn, board}, {type, player, coord}) => {
+  if (type !== MOVE) return
+  if (player !== turn) return `It's not ${player}'s turn`
+  if (coord.length !== 2)
+    return `Specify row,column`
+  const [row, col] = coord
+  if (!Number.isInteger(row) || row < 0 || row > 2)
+    return `Invalid row (must be 0-2): ${row}`
+  if (!Number.isInteger(col) || col < 0 || col > 2)
+    return `Invalid column (must be 0-2): ${col}`
+  if (board.hasIn(coord))
+    return `Square ${coord} is already taken`  
+}
+
+export default function reducer(game={}, action) {
+  const error = bad(game, action)
+  if (error) return Object.assign({}, game, {error})
   const nextBoard = board(game.board, action)
   return {
     winner: winner(nextBoard),
