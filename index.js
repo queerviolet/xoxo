@@ -44,7 +44,9 @@ const ai = player => () => {
   const state = game.getState()
   if (state.turn !== player) return
   if (state.winner) return
-  game.dispatch(play(game.getState()))
+  const move = play(game.getState())
+  console.log(`🤖 ${player} moves to ${move.coord}`)
+  game.dispatch(move)
 }
 
 const game = createStore(gameReducer)

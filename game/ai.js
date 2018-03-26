@@ -7,13 +7,11 @@ const COORDS = [
   [2, 0], [2, 1], [2, 2],
 ]
 
-const MOVES = {
-  X: COORDS.map(coord => move('X', coord)),
-  O: COORDS.map(coord => move('O', coord)),
-}
-
-export const moves = game => MOVES[game.turn]
+export const moves = game => moves[game.turn]
   .filter(move => !bad(game, move))
+
+moves.X = COORDS.map(coord => move('X', coord))
+moves.O = COORDS.map(coord => move('O', coord))
 
 const score = (game, move) => {
   const future = reducer(game, move)
