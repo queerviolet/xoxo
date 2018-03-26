@@ -13,11 +13,6 @@ const printBoard = () => {
   }
 }
 
-const printError = () => {
-  const {error} = game.getState()
-  if (error) console.error(error)
-}
-
 const getInput = player => async () => {
   const {turn} = game.getState()  
   if (turn !== player) return
@@ -30,35 +25,16 @@ const getInput = player => async () => {
   game.dispatch(move(turn, [row, col]))
 }
 
-const exitOnWin = () => {
-  const {winner} = game.getState()
-  if (winner) {
-    console.log(winner, 'wins!')
-    process.exit(0)
-  }
-}
-
-import play from './game/ai'
-
-const ai = player => () => {
-  const state = game.getState()
-  if (state.turn !== player) return
-  if (state.winner) return
-  const move = play(game.getState())
-  console.log(`🤖 ${player} moves to ${move.coord}`)
-  game.dispatch(move)
-}
-
+// Create the store
 const game = createStore(gameReducer)
 
 // Debug: Print the state
 // game.subscribe(() => console.log(game.getState()))
 
 game.subscribe(printBoard)
-game.subscribe(printError)
 game.subscribe(getInput('X'))
-game.subscribe(ai('O'))
-game.subscribe(exitOnWin)
+game.subscribe(getInput('O'))
 
-
+// We dispatch a dummy START action to call all our
+// subscribers the first time.
 game.dispatch({ type: 'START' })
