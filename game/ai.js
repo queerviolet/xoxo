@@ -1,4 +1,3 @@
-import {Map} from 'immutable'
 import reducer, {move, bad} from '.'
 
 const COORDS = [
