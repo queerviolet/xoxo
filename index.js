@@ -18,8 +18,9 @@ const printError = () => {
   if (error) console.error(error)
 }
 
-const getInput = async () => {
+const getInput = player => async () => {
   const {turn} = game.getState()  
+  if (turn !== player) return
   const ans = await inquirer.prompt([{
     type: 'input',
     name: 'coord',
@@ -37,6 +38,15 @@ const exitOnWin = () => {
   }
 }
 
+import play from './game/ai'
+
+const ai = player => () => {
+  const state = game.getState()
+  if (state.turn !== player) return
+  if (state.winner) return
+  game.dispatch(play(game.getState()))
+}
+
 const game = createStore(gameReducer)
 
 // Debug: Print the state
@@ -44,7 +54,9 @@ const game = createStore(gameReducer)
 
 game.subscribe(printBoard)
 game.subscribe(printError)
-game.subscribe(getInput)
+game.subscribe(getInput('X'))
+game.subscribe(ai('O'))
 game.subscribe(exitOnWin)
+
 
 game.dispatch({ type: 'START' })

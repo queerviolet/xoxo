@@ -58,7 +58,7 @@ export function winner(board) {
   return 'draw'
 }
 
-const bad = ({turn, board}, {type, player, coord}) => {
+export const bad = ({turn, board}, {type, player, coord}) => {
   if (type !== MOVE) return
   if (player !== turn) return `It's not ${player}'s turn`
   if (coord.length !== 2)
